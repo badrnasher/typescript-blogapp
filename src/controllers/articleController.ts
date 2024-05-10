@@ -21,7 +21,7 @@ export const listArticles = async (req: Request, res: Response) => {
               .catch((error) => {
                   logging.error(NAMESPACE, error.message, error);
 
-                  return res.status(200).json({
+                  return res.status(500).json({
                       message: error.message,
                       error
                   });
@@ -34,7 +34,7 @@ export const listArticles = async (req: Request, res: Response) => {
       .catch((error) => {
           logging.error(NAMESPACE, error.message, error);
 
-          return res.status(200).json({
+          return res.status(500).json({
               message: error.message,
               error
           });
@@ -88,7 +88,7 @@ export const createArticle = async (req: Request, res: Response) => {
 
   let { nickname, title, content } = req.body;
 
-  let query = `INSERT INTO articles (nickname, title, content, creationDate) VALUES ("${nickname}","${title}", "${content}", "${new Date().toISOString().slice(0, 19).replace('T', ' ')}"`;
+  let query = `INSERT INTO articles (nickname, title, content, creationDate) VALUES ("${nickname}","${title}", "${content}", "${new Date().toISOString().slice(0, 19).replace('T', ' ')}")`;
 
   Connect()
       .then((connection) => {
@@ -96,14 +96,14 @@ export const createArticle = async (req: Request, res: Response) => {
               .then((result) => {
                   logging.info(NAMESPACE, 'Article created: ', result);
 
-                  return res.status(200).json({
+                  return res.status(201).json({
                       result
                   });
               })
               .catch((error) => {
                   logging.error(NAMESPACE, error.message, error);
 
-                  return res.status(200).json({
+                  return res.status(500).json({
                       message: error.message,
                       error
                   });
@@ -116,7 +116,7 @@ export const createArticle = async (req: Request, res: Response) => {
       .catch((error) => {
           logging.error(NAMESPACE, error.message, error);
 
-          return res.status(200).json({
+          return res.status(500).json({
               message: error.message,
               error
           });

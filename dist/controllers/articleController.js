@@ -29,7 +29,7 @@ const listArticles = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         })
             .catch((error) => {
             logging_1.default.error(NAMESPACE, error.message, error);
-            return res.status(200).json({
+            return res.status(500).json({
                 message: error.message,
                 error
             });
@@ -41,7 +41,7 @@ const listArticles = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     })
         .catch((error) => {
         logging_1.default.error(NAMESPACE, error.message, error);
-        return res.status(200).json({
+        return res.status(500).json({
             message: error.message,
             error
         });
@@ -87,19 +87,19 @@ exports.getArticle = getArticle;
 const createArticle = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     logging_1.default.info(NAMESPACE, 'Inserting article.');
     let { nickname, title, content } = req.body;
-    let query = `INSERT INTO articles (nickname, title, content, creationDate) VALUES ("${nickname}","${title}", "${content}", "${new Date().toISOString().slice(0, 19).replace('T', ' ')}"`;
+    let query = `INSERT INTO articles (nickname, title, content, creationDate) VALUES ("${nickname}","${title}", "${content}", "${new Date().toISOString().slice(0, 19).replace('T', ' ')}")`;
     (0, db_1.Connect)()
         .then((connection) => {
         (0, db_1.Query)(connection, query)
             .then((result) => {
             logging_1.default.info(NAMESPACE, 'Article created: ', result);
-            return res.status(200).json({
+            return res.status(201).json({
                 result
             });
         })
             .catch((error) => {
             logging_1.default.error(NAMESPACE, error.message, error);
-            return res.status(200).json({
+            return res.status(500).json({
                 message: error.message,
                 error
             });
@@ -111,7 +111,7 @@ const createArticle = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     })
         .catch((error) => {
         logging_1.default.error(NAMESPACE, error.message, error);
-        return res.status(200).json({
+        return res.status(500).json({
             message: error.message,
             error
         });

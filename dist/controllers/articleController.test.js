@@ -13,17 +13,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const supertest_1 = __importDefault(require("supertest"));
-const app_1 = __importDefault(require("../app")); // Assuming your Express app is exported from app.ts
+const app_1 = __importDefault(require("../app"));
 describe('Article Controller', () => {
     it('should return list of articles', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app_1.default).get('/articles');
         expect(response.status).toBe(200);
-        // Add more assertions based on your expected response
     }));
     it('should return a specific article', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(app_1.default).get('/articles/1');
         expect(response.status).toBe(200);
-        // Add more assertions based on your expected response
     }));
     it('should create a new article', () => __awaiter(void 0, void 0, void 0, function* () {
         const newArticle = {
@@ -33,31 +31,27 @@ describe('Article Controller', () => {
         };
         const response = yield (0, supertest_1.default)(app_1.default).post('/articles').send(newArticle);
         expect(response.status).toBe(201);
-        // Add more assertions based on your expected response
     }));
 });
 describe('Comment Controller', () => {
     it('should return list of comments for an article', () => __awaiter(void 0, void 0, void 0, function* () {
-        const response = yield (0, supertest_1.default)(app_1.default).get('/comments/1');
+        const response = yield (0, supertest_1.default)(app_1.default).get('/articles/3/comments');
         expect(response.status).toBe(200);
-        // Add more assertions based on your expected response
     }));
     it('should create a new comment for an article', () => __awaiter(void 0, void 0, void 0, function* () {
         const newComment = {
             articleId: 1,
             content: 'This is a new comment'
         };
-        const response = yield (0, supertest_1.default)(app_1.default).post('/comments').send(newComment);
+        const response = yield (0, supertest_1.default)(app_1.default).post('/articles/3/comments').send(newComment);
         expect(response.status).toBe(201);
-        // Add more assertions based on your expected response
     }));
     it('should create a new comment on a comment', () => __awaiter(void 0, void 0, void 0, function* () {
         const newCommentOnComment = {
             commentId: 1,
             content: 'This is a new comment on a comment'
         };
-        const response = yield (0, supertest_1.default)(app_1.default).post('/comments/comment').send(newCommentOnComment);
+        const response = yield (0, supertest_1.default)(app_1.default).post('/articles/3/comments/2').send(newCommentOnComment);
         expect(response.status).toBe(201);
-        // Add more assertions based on your expected response
     }));
 });
